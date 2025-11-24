@@ -22,6 +22,8 @@ def removeDuplicates():
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="Input file")
 parser.add_argument("-u", "--user", help="User")
+parser.add_argument("-H", "--hash", action="store_true", help="Flag for adding hash into database")
+
 
 args = parser.parse_args()
 
@@ -59,8 +61,12 @@ with open(args.file, "r") as f:
         passwd = line.strip()
         if not passwd:
             continue
-        # to-do make the user
-        batch.append((user_for_db, passwd, "", file_name))
+
+        if args.hash:
+            batch.append((user_for_db, "", passwd, file_name))
+        else:
+            batch.append((user_for_db, passwd, "", file_name))
+        
 
         if i % batch_size == 0:
             cursor.executemany(
