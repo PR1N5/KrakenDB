@@ -27,6 +27,10 @@ parser.add_argument("-H", "--hash", action="store_true", help="Flag for adding h
 
 args = parser.parse_args()
 
+if not os.path.isfile(args.file):
+    print(f"[-] File not found: {args.file}")
+    exit(1)
+
 load_dotenv()
 
 DB_USER = os.getenv("DB_USER")
